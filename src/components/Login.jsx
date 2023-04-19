@@ -5,7 +5,7 @@ import { AuthContext } from '../provider/AuthProvider';
 const Login = () => {
 
 
-    const { signIn } =useContext(AuthContext);
+    const { signIn, signInWithGoogle } = useContext(AuthContext);
 
     const handelLogin = event =>{
         event.preventDefault()
@@ -14,6 +14,7 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        form.reset();
 
         signIn(email, password)
         .then(result =>{
@@ -24,6 +25,18 @@ const Login = () => {
             console.log(error);
         })
         
+    }
+
+
+    const handelSignInWithGoogle= ()=>{
+        signInWithGoogle()
+        .then(result =>{
+            const loggedUser=result.user;
+            console.log(loggedUser);
+        })
+        .catch(error=>{
+            console.log(error);
+        })
     }
 
     return (
@@ -55,6 +68,9 @@ const Login = () => {
                     </form>
                     <div className='ml-8 mb-2'>
                         <Link to="/register" >New to auth context </Link>
+                    </div>
+                    <div className='text-center my-3'>
+                        <button onClick={handelSignInWithGoogle}className="btn btn-active btn-primary">Google SignIn</button>
                     </div>
                 </div>
             </div>
